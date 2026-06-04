@@ -22,6 +22,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Cursor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -67,11 +69,17 @@ public class ContagionGUI extends JFrame {
     private int     tick    = 0;
     private boolean running = false;
     private boolean simulationEnded = false;
+    private boolean finalResultsPrinted = false;
 
     // -------------------------------------------------------------------------
     public ContagionGUI() {
         super("Contagion Zone Simulation");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                closeSimulation();
+            }
+        });
         setLayout(new BorderLayout(8, 8));
         getContentPane().setBackground(new Color(20, 20, 30));
 
@@ -274,6 +282,7 @@ public class ContagionGUI extends JFrame {
         tick    = 0;
         running = true;
         simulationEnded = false;
+        finalResultsPrinted = false;
         btnPause.setEnabled(true);
         btnPause.setText("Pause");
         setupPanel.setVisible(false);
@@ -383,8 +392,29 @@ public class ContagionGUI extends JFrame {
         simulationEnded = true;
         btnPause.setEnabled(false);
         btnPause.setText("Ended");
+        printFinalResults();
+    }
+
+    private void closeSimulation() {
+        simTimer.stop();
+        running = false;
+
+        if (people != null) {
+            printFinalResults();
+        }
+
+        dispose();
+        System.exit(0);
+    }
+
+    private void printFinalResults() {
+        if (finalResultsPrinted) {
+            return;
+        }
+
         printEndingGrid();
         printFinalStats();
+        finalResultsPrinted = true;
     }
 
     private void printEndingGrid() {
@@ -463,6 +493,7 @@ public class ContagionGUI extends JFrame {
         simTimer.stop();
         running   = false;
         simulationEnded = false;
+        finalResultsPrinted = false;
         people    = null;
         hospitals = new ArrayList<Hospital>();
         grid      = new Person[ROWS][COLS];
