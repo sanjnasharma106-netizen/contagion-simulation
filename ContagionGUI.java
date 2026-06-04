@@ -177,15 +177,15 @@ public class ContagionGUI extends JFrame {
         panel.add(Box.createVerticalStrut(6));
         panel.add(sectionLabel("LEGEND"));
         panel.add(Box.createVerticalStrut(4));
-        panel.add(legendRow(new Color(100, 220, 60),  "Young   - Healthy"));
-        panel.add(legendRow(new Color(34,  180, 34),  "Adult   - Healthy"));
-        panel.add(legendRow(new Color(0,   140, 60),  "Elderly - Healthy"));
-        panel.add(legendRow(Color.RED,                "Any     - Infected"));
-        panel.add(legendRow(new Color(0,   100, 220), "Any     - Vaccinated"));
-        panel.add(legendRow(Color.CYAN,               "Any     - Immune"));
-        panel.add(legendRow(Color.MAGENTA,            "Any     - Hospital"));
-        panel.add(legendRow(Color.GRAY,               "Any     - Dead"));
-        panel.add(legendRow(new Color(200, 230, 255), "Hospital"));
+        panel.add(legendRow(new Color(100, 220, 60),  "Young   - Healthy", "circle"));
+        panel.add(legendRow(new Color(34,  180, 34),  "Adult   - Healthy", "square"));
+        panel.add(legendRow(new Color(0,   140, 60),  "Elderly - Healthy", "triangle"));
+        panel.add(legendRow(Color.RED,                "Any     - Infected", "square"));
+        panel.add(legendRow(new Color(0,   100, 220), "Any     - Vaccinated", "square"));
+        panel.add(legendRow(Color.CYAN,               "Any     - Immune", "square"));
+        panel.add(legendRow(Color.MAGENTA,            "Any     - Hospital", "square"));
+        panel.add(legendRow(Color.GRAY,               "Any     - Dead", "x"));
+        panel.add(legendRow(new Color(200, 230, 255), "Hospital", "hospital"));
         panel.add(Box.createVerticalStrut(6));
         panel.add(makeDivider());
 
@@ -643,13 +643,12 @@ public class ContagionGUI extends JFrame {
         return l;
     }
 
-    private JPanel legendRow(Color color, String label) {
+    private JPanel legendRow(Color color, String label, String shape) {
         JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 1));
         row.setBackground(new Color(25, 25, 38));
         row.setAlignmentX(LEFT_ALIGNMENT);
 
-        JPanel swatch = new JPanel();
-        swatch.setBackground(color);
+        JPanel swatch = new LegendSwatch(color, shape);
         swatch.setPreferredSize(new Dimension(14, 14));
         swatch.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)));
 
@@ -660,6 +659,51 @@ public class ContagionGUI extends JFrame {
         row.add(swatch);
         row.add(lbl);
         return row;
+    }
+
+    private class LegendSwatch extends JPanel {
+        private Color color;
+        private String shape;
+
+        public LegendSwatch(Color color, String shape) {
+            this.color = color;
+            this.shape = shape;
+            setBackground(new Color(25, 25, 38));
+        }
+
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(color);
+
+            int size = Math.min(getWidth(), getHeight()) - 4;
+            int x = (getWidth() - size) / 2;
+            int y = (getHeight() - size) / 2;
+
+            if ("circle".equals(shape)) {
+                g2.fillOval(x, y, size, size);
+            } else if ("triangle".equals(shape)) {
+                int[] xs = {x + size / 2, x + size, x};
+                int[] ys = {y, y + size, y + size};
+                g2.fillPolygon(xs, ys, 3);
+            } else if ("x".equals(shape)) {
+                g2.drawLine(x, y, x + size, y + size);
+                g2.drawLine(x + size, y, x, y + size);
+            } else if ("hospital".equals(shape)) {
+                g2.fillRect(x, y, size, size);
+                g2.setColor(new Color(220, 30, 30));
+                int thick = Math.max(2, size / 4);
+                g2.fillRect(x + thick, y + size / 2 - thick / 2,
+                            size - 2 * thick, thick);
+                g2.fillRect(x + size / 2 - thick / 2, y + thick,
+                            thick, size - 2 * thick);
+            } else {
+                g2.fillRect(x, y, size, size);
+            }
+        }
     }
 
     private JSeparator makeDivider() {
