@@ -360,7 +360,65 @@ public class ContagionGUI extends JFrame {
             simTimer.stop();
             running = false;
             btnPause.setText("Resume");
+            printEndingGrid();
+            printFinalStats();
         }
+    }
+
+    private void printEndingGrid() {
+        System.out.println("Ending grid:");
+
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                Person p = grid[row][col];
+
+                if (p == null) {
+                    System.out.print(".");
+                } else if (!p.isAlive()) {
+                    System.out.print("D");
+                } else if (p.isImmune()) {
+                    System.out.print("I");
+                } else if (p.isVaccinated()) {
+                    System.out.print("V");
+                } else if (p.isInfected()) {
+                    System.out.print("X");
+                } else {
+                    System.out.print(p.toString());
+                }
+            }
+
+            System.out.println();
+        }
+
+        System.out.println();
+    }
+
+    private void printFinalStats() {
+        int healthy = 0;
+        int immune = 0;
+        int vaccinated = 0;
+        int dead = 0;
+
+        for (int i = 0; i < people.size(); i++) {
+            Person p = people.get(i);
+
+            if (!p.isAlive()) {
+                dead++;
+            } else if (p.isImmune()) {
+                immune++;
+            } else if (p.isVaccinated()) {
+                vaccinated++;
+            } else {
+                healthy++;
+            }
+        }
+
+        System.out.println("Simulation ended at tick " + tick);
+        System.out.println("Final healthy: " + healthy);
+        System.out.println("Final immune: " + immune);
+        System.out.println("Final vaccinated: " + vaccinated);
+        System.out.println("Final dead: " + dead);
+        System.out.println();
     }
 
     private void togglePause() {
