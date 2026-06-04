@@ -66,6 +66,7 @@ public class ContagionGUI extends JFrame {
 
     private int     tick    = 0;
     private boolean running = false;
+    private boolean simulationEnded = false;
 
     // -------------------------------------------------------------------------
     public ContagionGUI() {
@@ -272,6 +273,7 @@ public class ContagionGUI extends JFrame {
 
         tick    = 0;
         running = true;
+        simulationEnded = false;
         btnPause.setEnabled(true);
         btnPause.setText("Pause");
         setupPanel.setVisible(false);
@@ -309,7 +311,13 @@ public class ContagionGUI extends JFrame {
 
     // -------------------------------------------------------------------------
     private void step() {
-        if (!running || people == null) return;
+        if (!running || simulationEnded || people == null) return;
+
+        if (countInfected() == 0) {
+            endSimulation();
+            return;
+        }
+
         tick++;
 
         // Move all alive people
@@ -352,17 +360,31 @@ public class ContagionGUI extends JFrame {
         gridPanel.repaint();
 
         // Auto-stop when no infected remain
+        if (countInfected() == 0) {
+            endSimulation();
+        }
+    }
+
+    private int countInfected() {
         int infectedCount = 0;
+
         for (int i = 0; i < people.size(); i++) {
-            if (people.get(i).isInfected()) infectedCount++;
+            if (people.get(i).isInfected()) {
+                infectedCount++;
+            }
         }
-        if (infectedCount == 0) {
-            simTimer.stop();
-            running = false;
-            btnPause.setText("Resume");
-            printEndingGrid();
-            printFinalStats();
-        }
+
+        return infectedCount;
+    }
+
+    private void endSimulation() {
+        simTimer.stop();
+        running = false;
+        simulationEnded = true;
+        btnPause.setEnabled(false);
+        btnPause.setText("Ended");
+        printEndingGrid();
+        printFinalStats();
     }
 
     private void printEndingGrid() {
@@ -422,6 +444,10 @@ public class ContagionGUI extends JFrame {
     }
 
     private void togglePause() {
+        if (simulationEnded) {
+            return;
+        }
+
         if (running) {
             simTimer.stop();
             running = false;
@@ -436,6 +462,7 @@ public class ContagionGUI extends JFrame {
     private void resetSim() {
         simTimer.stop();
         running   = false;
+        simulationEnded = false;
         people    = null;
         hospitals = new ArrayList<Hospital>();
         grid      = new Person[ROWS][COLS];
