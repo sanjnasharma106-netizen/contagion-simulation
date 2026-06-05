@@ -277,12 +277,14 @@ public class ContagionGUI extends JFrame {
             grid[loc.getY()][loc.getX()] = p;
         }
 
-        printInitialGrid();
-
         tick    = 0;
         running = true;
         simulationEnded = false;
         finalResultsPrinted = false;
+
+        printInitialGrid();
+        printInitialStats();
+
         btnPause.setEnabled(true);
         btnPause.setText("Pause");
         setupPanel.setVisible(false);
@@ -292,6 +294,7 @@ public class ContagionGUI extends JFrame {
     }
 
     private void printInitialGrid() {
+        System.out.println("Simulation started at tick " + tick);
         System.out.println("Initial grid:");
 
         for (int row = 0; row < ROWS; row++) {
@@ -308,6 +311,29 @@ public class ContagionGUI extends JFrame {
             System.out.println();
         }
 
+        System.out.println();
+    }
+
+    private void printInitialStats() {
+        int healthy = 0;
+        int infected = 0;
+        int vaccinated = 0;
+
+        for (int i = 0; i < people.size(); i++) {
+            Person p = people.get(i);
+
+            if (p.isInfected()) {
+                infected++;
+            } else if (p.isVaccinated()) {
+                vaccinated++;
+            } else {
+                healthy++;
+            }
+        }
+
+        System.out.println("Initial healthy: " + healthy);
+        System.out.println("Initial infected: " + infected);
+        System.out.println("Initial vaccinated: " + vaccinated);
         System.out.println();
     }
 
