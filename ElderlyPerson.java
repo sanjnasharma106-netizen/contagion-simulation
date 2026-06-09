@@ -1,4 +1,5 @@
 import java.awt.*;
+// This category of people have the lowest immunity and move slowest
 
 public class ElderlyPerson extends Person {
     // Every time the simulation asks the adult if they want to move, this number goes up by 1
@@ -7,7 +8,7 @@ public class ElderlyPerson extends Person {
     public ElderlyPerson(Location coord) {
         super(coord);
     }
-    // construct an elderly person with a Contagion
+    // construct an elderly person who is initially sick with a Contagion
     public ElderlyPerson(Location coord, Contagion disease) {
         super(coord, disease);
     }
@@ -23,7 +24,7 @@ public class ElderlyPerson extends Person {
         // moves slowest compared to Adults and Young people
         return moveCounter % 4 == 0;
     }
-
+    // Return "Elderly" for data tracking and statistics
     public String getType() {
         return "Elderly";
     }
@@ -58,7 +59,7 @@ public class ElderlyPerson extends Person {
         // check whether the person is ran out of recoverytime
         super.attemptRecovery();
     }
-    // Elderly people are "E" in plain text
+    // Return "E" in plain text for elderly people
     @Override
     public String toString() {
         return "E";
