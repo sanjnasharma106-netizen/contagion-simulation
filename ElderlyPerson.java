@@ -20,7 +20,7 @@ public class ElderlyPerson extends Person {
         }
 
         moveCounter++;
-
+        // moves slowest compared to Adults and Young people
         return moveCounter % 4 == 0;
     }
 
@@ -55,8 +55,10 @@ public class ElderlyPerson extends Person {
         if (isInfected()) {
             damage(3);
         }
+        // check whether the person is ran out of recoverytime
         super.attemptRecovery();
     }
+    // Elderly people are "E" in plain text
     @Override
     public String toString() {
         return "E";
