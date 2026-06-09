@@ -26,7 +26,7 @@ public class Hospital extends Building {
     public int getVaccinationsThisTick(){ return vaccinationsThisTick; }
 
     /**
-     * Admit and treat up to `capacity` infected people that are within
+     * Admit and treat up to capacity infected people that are within
      * TREAT_RADIUS of the hospital's centre cell.
      */
     @Override
