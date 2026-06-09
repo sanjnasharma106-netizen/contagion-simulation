@@ -35,6 +35,7 @@ public class AdultPerson extends Person {
         if (isInfected()) {
             damage(1);
         }
+        // check whether the person is ran out of recoverytime
         super.attemptRecovery();
     }
 
@@ -59,7 +60,7 @@ public class AdultPerson extends Person {
         // keep its own color if the person is healthy(none of above happened)
         return new Color(34, 180, 34);
     }
-
+    // Adults are "A" in plain text
     @Override
     public String toString() {
         return "A";
