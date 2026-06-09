@@ -413,17 +413,24 @@ public class ContagionGUI extends JFrame {
     }
 
     private void endSimulation() {
+        if (simulationEnded) {
+            return;
+        }
+
         simTimer.stop();
         running = false;
         simulationEnded = true;
         btnPause.setEnabled(false);
         btnPause.setText("Ended");
+        updateStats();
+        gridPanel.repaint();
         printFinalResults();
     }
 
     private void closeSimulation() {
         simTimer.stop();
         running = false;
+        simulationEnded = true;
 
         if (people != null) {
             printFinalResults();
