@@ -1,4 +1,5 @@
 import java.awt.*;
+// This category of people have middle immunity and moving speed
 
 public class AdultPerson extends Person {
 
@@ -24,7 +25,7 @@ public class AdultPerson extends Person {
 
         return moveCounter % 2 == 0;
     }
-
+    // Return the string "Adult" for data tracking and statistics
     public String getType() {
         return "Adult";
     }
@@ -60,7 +61,7 @@ public class AdultPerson extends Person {
         // keep its own color if the person is healthy(none of above happened)
         return new Color(34, 180, 34);
     }
-    // Adults are "A" in plain text
+    // Return "A" in plain text for the Adults
     @Override
     public String toString() {
         return "A";
