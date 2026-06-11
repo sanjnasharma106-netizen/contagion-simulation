@@ -2,7 +2,7 @@ import java.awt.*;
 // This category of people have the lowest immunity and move slowest
 
 public class ElderlyPerson extends Person {
-    // Every time the simulation asks the adult if they want to move, this number goes up by 1
+    // Every time the simulation asks the elderly person if they want to move, this number goes up by 1
     private int moveCounter;
     // construct an elderly person at a specific location
     public ElderlyPerson(Location coord) {
