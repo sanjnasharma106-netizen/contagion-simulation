@@ -1,5 +1,11 @@
 import java.util.Random;
 
+// The Contagion class describes the basic methods of
+// Contagions and contains various return methods for
+// statistics and functionality. Importantly, the Contagion
+// class holds the attemptInfection, attemptKill, and
+// spread methods, which will be used by all subclasses.
+
 public class Contagion {
 
     private double infectionRate;
@@ -46,11 +52,12 @@ public class Contagion {
         return spreadDistance;
     }
 
+    // Attempts infection on Person "p". If "p" is already
+    // infected or immune/vaccinated, this method has no effect.
+    // Otherwise, whether or not infection status is applied
+    // is based on infection rate.
     public void attemptInfection(Person p) {
-
-        if (p.isInfected()
-                || p.isImmune()
-                || p.isVaccinated()) {
+        if (p.isInfected() || p.isImmune() || p.isVaccinated()) {
             return;
         }
 
@@ -59,17 +66,24 @@ public class Contagion {
         }
     }
 
+    // Attempts to kill host -- Person "p." If "p" is already
+    // dead or not infected, this method has no effect.
+    // Otherwise, whether or not death status is applied
+    // is based on death rate.
     public void attemptKill(Person p) {
-
         if (!p.isAlive() || !p.isInfected()) {
             return;
         }
-
         if (rand.nextDouble() < deathRate) {
             p.die();
         }
     }
 
+    // This method looks at all squares surrounding
+    // Person "infected" within a radius determined by
+    // the contagion's "spreadDistance." For each square
+    // with a healthy Person in it, the Contagion attempts
+    // infection.
     public void spread(Person infected, Person[][] grid) {
 
         Location loc = infected.getLocation();
@@ -85,6 +99,7 @@ public class Contagion {
                  col <= x + spreadDistance;
                  col++) {
 
+                // Addresses squares on/outside the border.
                 if (row < 0 ||
                     row >= grid.length ||
                     col < 0 ||
