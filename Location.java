@@ -1,3 +1,6 @@
+// The Location class was created as a helpful
+// object to keep coordinates together.
+
 public class Location {
     private int x;
     private int y;
