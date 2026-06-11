@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.Random;
 
+// The Entity class provides basic methods for
+// objects in this simulation, such as getDirection().
+
 public class Entity {
     private Location coord;
     private Random rand;
