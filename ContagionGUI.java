@@ -37,7 +37,7 @@ public class ContagionGUI extends JFrame {
     private static final int CELL = 12;
 
     // Simulation state
-    private Person[][]        grid;
+    private Person[][] grid;
     private ArrayList<Person>   people;
     private ArrayList<Hospital> hospitals;
 
@@ -54,19 +54,19 @@ public class ContagionGUI extends JFrame {
     private JLabel lblHospitalised;
 
     // Setup controls
-    private JPanel        setupPanel;
+    private JPanel setupPanel;
     private JComboBox<String> cbDisease;
-    private JSlider       sliderPop;
-    private JSlider       sliderHospitals;
-    private JSlider       sliderVaccinated;
-    private JButton       btnStart;
-    private JButton       btnPause;
-    private JButton       btnReset;
+    private JSlider sliderPop;
+    private JSlider sliderHospitals;
+    private JSlider sliderVaccinated;
+    private JButton btnStart;
+    private JButton btnPause;
+    private JButton btnReset;
 
     // Grid drawing panel (inner class)
     private GridPanel gridPanel;
 
-    private int     tick    = 0;
+    private int tick = 0;
     private boolean running = false;
     private boolean simulationEnded = false;
     private boolean finalResultsPrinted = false;
@@ -141,7 +141,7 @@ public class ContagionGUI extends JFrame {
         setupPanel.add(cbDisease);
         setupPanel.add(Box.createVerticalStrut(8));
 
-        sliderPop        = addSlider(setupPanel, "Population:",   20, 200, 100);
+        sliderPop = addSlider(setupPanel, "Population:",   20, 200, 100);
         sliderHospitals  = addSlider(setupPanel, "Hospitals:",     0,   5,   2);
         sliderVaccinated = addSlider(setupPanel, "Initial infected %:",  1,  20,  5);
 
@@ -194,12 +194,12 @@ public class ContagionGUI extends JFrame {
         panel.add(sectionLabel("STATISTICS"));
         panel.add(Box.createVerticalStrut(4));
 
-        lblTick         = statLabel("Tick:         0");
-        lblHealthy      = statLabel("Healthy:      -");
-        lblInfected     = statLabel("Infected:     -");
-        lblImmune       = statLabel("Immune:       -");
+        lblTick = statLabel("Tick: 0");
+        lblHealthy = statLabel("Healthy:      -");
+        lblInfected = statLabel("Infected:     -");
+        lblImmune= statLabel("Immune:       -");
         lblVaccinated   = statLabel("Vaccinated:   -");
-        lblDead         = statLabel("Dead:         -");
+        lblDead = statLabel("Dead:         -");
         lblHospitalised = statLabel("In Hospital:  -");
 
         panel.add(lblTick);
