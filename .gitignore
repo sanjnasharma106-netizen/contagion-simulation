@@ -1,0 +1,10 @@
+*.class
+outputs/
+*.pdf
+simulation.txt
+0
+initAndStart())
+resetSim())
+step())
+togglePause())
+valLbl.setText(String.valueOf(slider.getValue())))
