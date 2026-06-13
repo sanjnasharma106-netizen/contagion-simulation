@@ -58,3 +58,7 @@ The simulation ends when no infected people remain. At that point, the timer sto
 - `AirborneContagion.java`, `ContactContagion.java`: specific disease types.
 - `Hospital.java`: treats infected people and vaccinates healthy nearby people.
 - `Building.java`, `Entity.java`, `Location.java`: support classes for grid objects, movement, and coordinates.
+
+- ## Simulation Demo
+
+![Simulation](simulation.gif) 
